@@ -1,0 +1,1 @@
+{"name":"随身背词","short_name":"背词","description":"移动端背单词和随身听工具","start_url":"/vocab/","display":"standalone","background_color":"#ffffff","theme_color":"#49c1c9","lang":"en","scope":"/vocab/","orientation":"portrait","icons":[{"src":"/vocab/icons/app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}

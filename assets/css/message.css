@@ -1,0 +1,541 @@
+.tp_intro::before {
+    content: "";
+    display: inline-block;
+    background: url(../img/common/deco01.webp) center center no-repeat;
+    background-size: cover;
+    position: absolute;
+    -webkit-animation: floating1 ease-in-out 4s infinite both;
+    animation: floating1 ease-in-out 4s infinite both
+}
+
+.tp_intro_main {
+    position: relative;
+    z-index: 1
+}
+
+.tp_intro_main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: -1
+}
+
+.tp_intro_ttl {
+    position: relative;
+    z-index: 2
+}
+
+.tp_intro_subttl {
+    text-align: center;
+    line-height: 1.8
+}
+
+.tp_intro_lead {
+    border: solid 1px #fff;
+    text-align: center
+}
+
+.tp_intro_lead_txt {
+    font-weight: 400;
+    line-height: 1.8
+}
+
+.tp_intro_txt {
+    font-weight: 500;
+    line-height: 1.8;
+    text-align: center
+}
+
+.tp_intro_txt .hp_elm01 {
+    color: #6adaff;
+    text-shadow: 0px 0px 7px #0b4bb7, 0px 0px 7px #0b4bb7, 0px 0px 7px #0b4bb7
+}
+
+.tp_intro_more {
+    text-align: right
+}
+
+.c_base_content {
+    margin: 0 auto;
+    position: relative;
+    z-index: 1
+}
+
+c_base_content {
+    padding: 0 2.6666666667vw
+}
+
+.c_base_content {
+    width: min(64.4216691069vw, 880px)
+}
+
+.tp_ttl span {
+    position: relative
+}
+
+.tp_ttl span::before {
+    content: "";
+    background-image: url(../img/common/star03.webp);
+    position: absolute;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    -webkit-transition: .2s;
+    transition: .2s
+}
+
+.tp_ttl span::after {
+    content: "";
+    background-color: #fff;
+    position: absolute;
+    top: 0px;
+    height: 2px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    -webkit-transition: .2s;
+    transition: .2s;
+    -webkit-transform: rotate(135deg);
+    transform: rotate(135deg)
+}
+
+/* .pc_none {
+    display: none
+}  */
+
+.tp_intro_lead {
+    border: solid 1px #fff;
+    text-align: center
+}
+
+.tp_intro_lead_txt {
+    font-weight: 400;
+    line-height: 1.8
+}
+
+.tp_intro_lead {
+    padding: 2vw 1.3333333333vw;
+    margin: 0 auto 4.2666666667vw
+}
+
+/* .tp_intro_lead_txt {
+    font-size: var(--sp-size-24);
+} */
+
+.tp_intro::before {
+    width: 183.5px;
+    height: 82.5px;
+    top: min(-.2928257687vw, -4px);
+    right: min(3.2942898975vw, 45px)
+}
+
+.tp_intro_main {
+    padding: 0 min(1.4641288433vw, 20px)
+}
+
+.tp_intro_main::before {
+    overflow: hidden;
+    width: min(99vw, 1065px);
+    height: min(233vw, 966px);
+    -webkit-transform: translateX(-50%) translateY(-26%);
+    transform: translateX(-50%) translateY(-26%);
+    background: url(../img/common/bg_intro.webp) center center no-repeat;
+    background-size: 110% 100%
+}
+
+.tp_intro_subttl {
+    font-size: var(--sp-size-24);
+    margin-bottom: min(2.3426061493vw, 32px)
+}
+
+.tp_intro_lead {
+    padding: min(1.4641288433vw, 20px);
+    /* max-width: var(--sp-size-24); */
+    margin: 0 auto min(2.3426061493vw, 32px)
+}
+
+.tp_intro_lead_txt {
+    font-size:var(--sp-size-24);
+}
+
+.tp_intro_txt {
+    font-size: var(--sp-size-24);
+    margin-bottom: min(2.3426061493vw, 32px)
+}
+
+.tp_intro_more {
+    margin-top: var(--sp-size-24);
+}
+.tp_movie {
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie:hover {
+    -webkit-transition: .3s;
+    transition: .3s;
+    cursor: pointer
+}
+
+.tp_movie:hover .tp_movie__inner .tp_movie__img {
+    -webkit-animation: r1 6s linear infinite;
+    animation: r1 6s linear infinite;
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie:hover .tp_movie__inner .tp_movie__img img {max-width: 100%; /* 图片最大宽度为父元素的100% */
+    height: auto; /* 保持图片宽高比例 */
+    display: block; /* 去掉底部空白 */
+    margin: 0 auto; /* 水平居中 */
+    -webkit-animation: r2 6s linear infinite;
+    animation: r2 6s linear infinite;
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie:hover .play .arrow {
+    -webkit-transition: .3s;
+    transition: .3s;
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9)
+}
+
+.tp_movie:hover .play p {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie .play {
+    font-family: "Dancing Script",cursive;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center
+}
+
+.tp_movie .play .arrow {
+    margin: auto;
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie .play p {
+    -webkit-transition: .3s;
+    transition: .3s;
+    margin-top: 10px
+}
+
+.tp_movie__inner {
+    position: relative;
+    z-index: 1;
+    margin: auto
+}
+
+.tp_movie__inner .tp_movie__img {
+    -webkit-mask-image: url(../img/top/tp_movie_mask.webp);
+    mask-image: url(../img/top/tp_movie_mask.webp);
+	-webkit-mask-size: cover; /* 使用WebKit前缀的浏览器 */
+    mask-size: cover; /* 通用属性 */
+    width: 39%;
+    margin: 0 auto
+	
+}
+
+.tp_movie__inner .tp_movie__img img {max-width: 100%; /* 图片最大宽度为父元素的100% */
+    height: auto; /* 保持图片宽高比例 */
+    display: block; /* 去掉底部空白 */
+    margin: 0 auto; /* 水平居中 */
+    -o-object-fit: contain;
+    object-fit: contain
+}
+
+@-webkit-keyframes r1 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
+    }
+}
+
+@keyframes r1 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
+    }
+}
+
+@-webkit-keyframes r2 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg)
+    }
+}
+
+@keyframes r2 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg)
+    }
+}
+
+.tp_movie {
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie:hover {
+    -webkit-transition: .3s;
+    transition: .3s;
+    cursor: pointer
+}
+
+.tp_movie:hover .tp_movie__inner .tp_movie__img {
+    -webkit-animation: r1 6s linear infinite;
+    animation: r1 6s linear infinite;
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie:hover .tp_movie__inner .tp_movie__img img {
+    -webkit-animation: r2 6s linear infinite;
+    animation: r2 6s linear infinite;
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie:hover .play .arrow {
+    -webkit-transition: .3s;
+    transition: .3s;
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9)
+}
+
+.tp_movie:hover .play p {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie .play {
+    font-family: "Dancing Script", cursive;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center
+}
+
+.tp_movie .play .arrow {
+    margin: auto;
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie .play p {
+    -webkit-transition: .3s;
+    transition: .3s;
+    margin-top: 10px
+}
+
+.tp_movie__inner {
+    position: relative;
+    z-index: 1;
+    margin: auto
+}
+
+.tp_movie__inner .tp_movie__img {
+    -webkit-mask-image: url(../img/common/tp_movie_mask.webp);
+    mask-image: url(../img/common/tp_movie_mask.webp);
+    -webkit-mask-size: cover; /* 使用WebKit前缀的浏览器 */
+mask-size: cover; /* 通用属性 */
+width: 39%;
+margin: 0 auto
+}
+
+.tp_movie__inner .tp_movie__img img {max-width: 100%; /* 图片最大宽度为父元素的100% */
+height: auto; /* 保持图片宽高比例 */
+display: block; /* 去掉底部空白 */
+margin: 0 auto; /* 水平居中 */
+    -o-object-fit: contain;
+    object-fit: contain
+}
+
+@-webkit-keyframes r1 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
+    }
+}
+
+@keyframes r1 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
+    }
+}
+
+@-webkit-keyframes r2 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg)
+    }
+}
+
+@keyframes r2 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg)
+    }
+}
+
+.play .arrow {
+    -webkit-transition: .3s;
+    transition: .3s;
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9)
+}
+
+.tp_movie:hover .play p {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie .play {
+    font-family: "Dancing Script", cursive;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center
+}
+
+.tp_movie .play .arrow {
+    margin: auto;
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.tp_movie .play p {
+    -webkit-transition: .3s;
+    transition: .3s;
+    margin-top: 10px
+}
+
+.tp_movie__inner {
+    position: relative;
+    z-index: 1;
+    margin: auto
+}
+
+.tp_movie__inner .tp_movie__img {
+    -webkit-mask-image: url(../img/common/tp_movie_mask.webp);
+    mask-image: url(../img/common/tp_movie_mask.webp);
+    -webkit-mask-size: cover; /* 使用WebKit前缀的浏览器 */
+mask-size: cover; /* 通用属性 */
+width: 39%;
+margin: 0 auto
+}
+
+.tp_movie__inner .tp_movie__img img {max-width: 100%; /* 图片最大宽度为父元素的100% */
+height: auto; /* 保持图片宽高比例 */
+display: block; /* 去掉底部空白 */
+margin: 0 auto; /* 水平居中 */
+    -o-object-fit: contain;
+    object-fit: contain
+}
+
+@-webkit-keyframes r1 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
+    }
+}
+
+@keyframes r1 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
+    }
+}
+
+@-webkit-keyframes r2 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg)
+    }
+}
+
+@keyframes r2 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg)
+    }
+}

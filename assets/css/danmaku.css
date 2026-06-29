@@ -1,0 +1,43 @@
+ /* 弹幕墙的基本样式 */
+ #danmakuWall {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    /* background: #000; */
+    color: rgb(245, 142, 156);
+    font-family: "Arial", sans-serif;
+    z-index: 99; 
+    /* 不能添加，不允许鼠标单击事件，不然被它覆盖的这一整个块都用不了了。 */
+  }
+ #danmakuWall2 {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    /* background: #000; */
+    color: rgb(245, 142, 156);
+    font-weight: 699;
+    text-shadow: 1px 1px 0 #fff; /* 添加白色的字体外边缘 */
+    font-family: "Arial", sans-serif;
+    z-index: 99; 
+    /* 不能添加，不允许鼠标单击事件，不然被它覆盖的这一整个块都用不了了。 */
+  }
+/* 弹幕单条样式 */
+.danmaku {
+  position: absolute;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 20px; /* 主要语言的字体大小 */
+  will-change: transform;  pointer-events: none; /* 让弹幕不响应鼠标事件 */
+
+  /* 其他样式省略 */
+  animation: slideIn 10s linear infinite;
+  animation-delay: calc(var(--delay) * 1s); /* 使用CSS变量来存储延迟时间 */
+}
+
+/* 次要语言的字体样式 */
+.danmaku .sub {
+  font-size: 16px; /* 次要语言的字体大小 */
+  color: rgb(245, 205, 192);
+}

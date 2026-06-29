@@ -1,0 +1,62 @@
+{
+    "backgroundImage": "./resources/愛言葉IV.jpg",
+    "coverImage": "./resources/愛言葉IV-cover.jpg",
+    "songTitle": "愛言葉IV",
+    "artistName": "鹿乃xLONxHanser",
+    "musicURL": "./resources/愛言葉IV.mp3",
+    "mediaType": "audio/mpeg",
+    "lrcFile": "./resources/愛言葉IV（鹿乃xLONxHanser） - Hanser,鹿乃,ろん.lrc",
+    "lrcExistLike": "left",
+    "animationSTAN": "stretch",
+    "backgroundType": "gradient",
+    "BGGradientConfig": {
+        "colorSource": [
+            "rgba(0,0,0,0.1)",
+            "rgba(0,0,0, 0.3)"
+        ],
+        "alphas": [
+            0.1,
+            0.5
+        ],
+        "ranges": [
+            25,
+            80
+        ]
+    },
+    "like": true,
+    "BGMusicScale": 0.1,
+    "replace-attach-content-demo": [
+        {
+            "backgroundImage": "./resources/Cloudier-Heartbeat-background.png",
+            "coverImage": "./resources/Cloudier-Heartbeat-cover.jpg",
+            "songTitle": "Heartbeat",
+            "artistName": "Cloudier",
+            "musicURL": "./resources/Cloudier-Heartbeat.mp3",
+            "lrcFile": "./resources/Cloudier-Heartbeat.lrc"
+        },
+        {
+            "backgroundImage": "./resources/Lulleaux-Empty Love-background.png",
+            "coverImage": "./resources/Lulleaux-Empty Love-cover.jpg",
+            "songTitle": "Empty Love",
+            "artistName": "Lulleaux",
+            "musicURL": "./resources/Lulleaux-Empty Love.mp3",
+            "lrcFile": "./resources/Lulleaux-Empty Love.lrc"
+        },
+        {
+            "backgroundImage": "./resources/Carly Rae Jepsen-I Really Like You-background.png",
+            "coverImage": "./resources/Carly Rae Jepsen-I Really Like You-cover.jpg",
+            "songTitle": "I Really Like You",
+            "artistName": "Carly Rae Jepsen",
+            "musicURL": "./resources/Carly Rae Jepsen-I Really Like You.mp3",
+            "lrcFile": "./resources/Carly Rae Jepsen-I Really Like You.lrc"
+        },
+        {
+            "backgroundImage": "./resources/新乐尘符-提拉米苏-background.png",
+            "coverImage": "./resources/新乐尘符-提拉米苏-cover.jpg",
+            "songTitle": "提拉米苏",
+            "artistName": "新乐尘符",
+            "musicURL": "./resources/新乐尘符-提拉米苏.mp3",
+            "lrcFile": "./resources/新乐尘符-提拉米苏.lrc"
+        }
+    ]
+}

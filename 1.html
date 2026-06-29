@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自定义循环锻炼计时器 - 升级版</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #f4f4f4, #e8e8e8);
+      }
+      header {
+        background: #333;
+        color: #fff;
+        padding: 10px 20px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      nav {
+        display: flex;
+        gap: 10px;
+      }
+      nav button {
+        background: #555;
+        border: none;
+        color: #fff;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 25px;
+        transition: background 0.3s ease;
+      }
+      nav button:hover {
+        background: #777;
+      }
+      .container {
+        padding: 30px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .section {
+        display: none;
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .section.active {
+        display: block;
+        animation: fade-in 0.5s ease;
+      }
+      .timer {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #d32f2f;
+        margin: 40px 0;
+        text-align: center;
+      }
+      .controls button {
+        margin: 5px;
+        padding: 12px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      .start {
+        background: #4caf50;
+        color: white;
+      }
+      .pause {
+        background: #ffc107;
+        color: black;
+      }
+      .reset {
+        background: #f44336;
+        color: white;
+      }
+      .cancel {
+        background: #999;
+        color: white;
+      }
+      .controls button:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+      input,
+      button,
+      textarea {
+        font-size: 1.1rem;
+        border-radius: 15px;
+        border: 1px solid #ccc;
+        padding: 8px;
+        margin: 5px 0;
+        transition: border-color 0.3s ease;
+        width: 100%;
+      }
+      input:focus,
+      textarea:focus {
+        border-color: #555;
+        outline: none;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      ul li {
+        background: white;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+        position: relative;
+        transition: background 0.3s ease;
+      }
+      ul li:hover {
+        background: #f8f8f8;
+      }
+      #nextExerciseDisplay,
+      #planDetails {
+        text-align: center;
+        margin: 15px 0;
+        font-size: 1.4rem;
+        color: #555;
+      }
+      #exerciseImageContainer {
+        text-align: center;
+        margin: 20px 0;
+      }
+      #exerciseImage {
+        max-width: 250px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+      }
+      #exerciseImage:hover {
+        transform: scale(1.05);
+      }
+      #historySummary {
+        margin-bottom: 10px;
+        padding: 10px;
+        background: #eee;
+        border-radius: 10px;
+        text-align: center;
+      }
+      #exportBtn {
+        margin-top: 10px;
+        padding: 12px 12px;
+        background: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      #exportBtn:hover {
+        background: #45a049;
+      }
+      #actionForm {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        background: #f9f9f9;
+      }
+      #actionList {
+        margin-top: 20px;
+      }
+      #actionList li {
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+        position: relative;
+      }
+      #actionList img {
+        max-height: 50px;
+        vertical-align: middle;
+        margin-left: 10px;
+        border-radius: 5px;
+      }
+      .edit-action {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+      .edit-action:hover {
+        color: #4caf50;
+      }
+      .delete-action {
+        position: absolute;
+        top: 32px;
+        right: 20px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+      .delete-action:hover {
+        color: #f44336;
+      }
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 导航栏 -->
+    <header>
+      <nav>
+        <button onclick="showSection('home')">首页</button>
+        <button onclick="showSection('workout')">训练计划</button>
+        <button onclick="showSection('history')">历史记录</button>
+      </nav>
+    </header>
+    <div class="container">
+      <!-- 首页：计时器 -->
+      <section id="home" class="section active">
+        <h2 style="text-align: center">计时器</h2>
+        <p style="text-align: center">
+          当前动作:
+          <span id="currentExercise">1</span> /
+          <span id="totalExercises">1</span>
+        </p>
+        <p class="timer" id="timer">30s</p>
+        <div class="controls">
+          <button class="start" onclick="startTimer()">启动</button>
+          <button class="pause" onclick="pauseTimer()">暂停</button>
+          <button class="reset" onclick="resetTimer()">恢复初始</button>
+          <button onclick="skipCurrentAction()">跳到下一组</button>
+          <button class="cancel" onclick="cancelTraining()">结束训练</button>
+        </div>
+        <p id="nextExerciseDisplay">下一个动作: --</p>
+        <!-- 手动模式按钮 -->
+        <button id="startManualActionBtn" onclick="startManualAction()" style="display: none;">开始</button>
+        <button id="completeActionBtn" onclick="completeCurrentAction()" style="display: none;">完成</button>
+        <!-- 当前动作图片预览区域 -->
+        <div id="exerciseImageContainer">
+          <img id="exerciseImage" src="" alt="当前动作预览" />
+        </div>
+        <div id="planDetails">
+          <!-- 显示当前训练计划的详细信息 -->
+        </div>
+      </section>
+      <!-- 训练计划 -->
+      <section id="workout" class="section">
+        <h2>设置训练计划</h2>
+        <!-- 录入单个动作的表单 -->
+        <div id="actionForm">
+          <p>
+            <label>动作名称：</label>
+            <input type="text" id="actionName" placeholder="例如：俯卧撑" />
+          </p>
+          <p>
+            <label>时长（秒）：</label>
+            <input type="number" id="actionDuration" placeholder="例如：30" />
+          </p>
+          <p>
+            <label>组数：</label>
+            <input type="number" id="actionSets" placeholder="例如：3" />
+          </p>
+          <p>
+            <label>次数：</label>
+            <input type="number" id="actionReps" placeholder="例如：10" />
+          </p>
+          <p>
+            <label>休息时间（秒）：</label>
+            <input type="number" id="actionRest" placeholder="例如：10" />
+          </p>
+          <p>
+            <label>动作图片：</label>
+            <input type="file" id="actionImageFile" accept="image/*" />
+          </p>
+          <p>
+            <label>备注信息：</label>
+            <textarea
+              id="actionNote"
+              placeholder="例如：动作要领、参考来源、注意事项等"
+            ></textarea>
+          </p>
+          <p>
+            <label>动作模式：</label>
+            <select id="actionMode">
+              <option value="auto">自动</option>
+              <option value="manual">手动</option>
+            </select>
+          </p>
+          <p>
+            <button onclick="addAction()">添加动作</button>
+            <button onclick="importCustomPlan()">导入训练计划</button>
+            <input type="file" id="planImportFile" accept=".json" style="display:none;">
+          </p>
+        </div>
+        <!-- 显示当前已添加的动作列表 -->
+        <h3>已添加动作</h3>
+        <ul id="actionList">
+          <!-- 动作列表项：名称、时长、组数、休息时间及缩略图 -->
+        </ul>
+        <p>
+          <label>训练计划备注：</label>
+          <input
+            type="text"
+            id="planRemark"
+            placeholder="例如：早晨, 下午, 晚上"
+          />
+        </p>
+        <p>
+          <button onclick="saveWorkoutPlan()">保存训练计划</button>
+          <button onclick="exportWorkoutPlan()">导出训练计划</button>
+          <button onclick="importWorkoutPlan()">导入训练计划</button>
+        </p>
+        <h3>已保存训练方案（点击加载）</h3>
+        <!-- 训练计划列表 -->
+        <ul id="planList"></ul>
+      </section>
+      <!-- 历史记录 -->
+      <section id="history" class="section">
+        <h2>历史记录</h2>
+        <div id="historySummary">
+          <!-- 显示今日统计信息 -->
+        </div>
+        <ul id="historyList"></ul>
+        <button id="exportBtn" onclick="exportHistory()">导出历史记录</button>
+        <button onclick="clearHistory()">清除历史记录</button>
+      </section>
+    </div>
+    <script>
+      /**************** 全局变量与初始数据 ****************/
+      let workoutQueue = []
+      let currentExerciseIndex = 0
+      let isRunning = false
+      let timerInterval
+      let sessionStartTime = null // 当前训练开始时间
+      let currentPlanName = '' // 当前训练计划名称
+
+      // 当前录入的训练计划动作数组（对象数组）
+      let currentPlanActions = []
+
+      /* 历史记录存储为对象数组：
+       { date: "2025/2/7 10:00:00", planName: "计划1", duration: 秒, finished: true/false }
+    */
+      let workoutData = JSON.parse(localStorage.getItem('workoutData')) || {
+        plans: {},
+        history: [],
+      }
+
+      // 请修改下面音频文件路径为实际路径
+      const exerciseAudio = new Audio('./钢琴声1_爱给网_aigei_com.wav')
+      const restAudio = new Audio(
+        './新消息提示音 苹果系统音效 IPhone原版短信声_爱给网_aigei_com.wav'
+      )
+
+      // 手动模式相关变量
+      let isManualMode = false;
+      let manualTimer;
+      let currentActionStartTime;
+      let currentActionEndTime;
+      const actionTimes = {}; // 记录每个动作的用时数组
+
+      /**************** 页面导航 ****************/
+      function showSection(id) {
+        document.querySelectorAll('.section').forEach((section) => {
+          section.classList.remove('active')
+        })
+        document.getElementById(id).classList.add('active')
+      }
+
+      /**************** 计时器相关函数 ****************/
+      function startTimer() {
+        if (!isRunning && workoutQueue.length > 0) {
+          isRunning = true
+          sessionStartTime = new Date()
+          nextExercise()
+        }
+      }
+
+      function pauseTimer() {
+        isRunning = false
+        clearInterval(timerInterval)
+      }
+
+      function resetTimer() {
+        isRunning = false
+        clearInterval(timerInterval)
+        currentExerciseIndex = 0
+        document.getElementById('timer').innerText = '30s'
+        document.getElementById('currentExercise').innerText = '1'
+        updateNextExerciseDisplay()
+        updatePlanDetails()
+        document.getElementById('exerciseImage').style.display = 'none'
+      }
+
+      // 取消训练，记录为未完成
+      function cancelTraining() {
+        if (isRunning) {
+          clearInterval(timerInterval)
+          let duration = Math.floor((new Date() - sessionStartTime) / 1000)
+          saveHistoryRecord(false, duration)
+          isRunning = false
+          alert('训练已取消，记录为未完成')
+          resetTimer()
+        }
+      }
+
+      function playBeep(audio) {
+        audio.play()
+      }
+
+      // 封装倒计时函数
+      function startCountdown(time, callback, audio) {
+        let remainingTime = time
+        document.getElementById('timer').innerText = remainingTime + 's'
+        if (audio) {
+          audio.play()
+        }
+        timerInterval = setInterval(() => {
+          remainingTime--
+          document.getElementById('timer').innerText = remainingTime + 's'
+          if (remainingTime <= 0) {
+            clearInterval(timerInterval)
+            callback()
+          }
+        }, 1000)
+      }
+
+      // 开始下一个动作或休息阶段的倒计时
+      function nextExercise() {
+        if (currentExerciseIndex >= workoutQueue.length) {
+          playBeep(exerciseAudio)
+          let duration = Math.floor((new Date() - sessionStartTime) / 1000)
+          saveHistoryRecord(true, duration)
+          alert('训练完成！')
+          isRunning = false
+          document.getElementById('nextExerciseDisplay').innerText =
+            '下一个动作: 无'
+          document.getElementById('exerciseImage').style.display = 'none'
+          return
+        }
+        let exercise = workoutQueue[currentExerciseIndex]
+        // 播报当前动作
+        simulateUserInteraction(() => {
+          speak(exercise.name);
+        });
+        document.getElementById(
+          'currentExercise'
+        ).innerText = `${exercise.name}（动作）`
+        updateNextExerciseDisplay()
+        // 显示当前动作图片（如果有）
+        if (exercise.image && exercise.image.trim() !== '') {
+          let imgEl = document.getElementById('exerciseImage')
+          imgEl.src = exercise.image.trim()
+          imgEl.style.display = 'block'
+        } else {
+          document.getElementById('exerciseImage').style.display = 'none'
+        }
+        if (exercise.mode === "manual") {
+          // 手动模式
+          startManualAction();
+        } else {
+          // 自动计时模式
+          startCountdown(
+            exercise.duration,
+            () => {
+              if (exercise.rest > 0) {
+                document.getElementById(
+                  'currentExercise'
+                ).innerText = `休息（${exercise.rest}s）`
+                document.getElementById('exerciseImage').style.display = 'none'
+                startCountdown(
+                  exercise.rest,
+                  () => {
+                    currentExerciseIndex++
+                    updatePlanDetails()
+                    nextExercise()
+                  },
+                  restAudio
+                )
+              } else {
+                currentExerciseIndex++
+                updatePlanDetails()
+                nextExercise()
+              }
+            },
+            exerciseAudio
+          )
+        }
+      }
+
+      // 手动跳过当前动作或休息阶段
+      function skipCurrentAction() {
+        clearInterval(timerInterval)
+        if (currentExerciseIndex < workoutQueue.length - 1) {
+          currentExerciseIndex++
+          updatePlanDetails()
+          nextExercise()
+        } else {
+          alert('已经是最后一个动作了！')
+        }
+      }
+
+      // 更新“下一个动作”显示，并语音播报下一个动作
+      function updateNextExerciseDisplay() {
+        // 计算下一个动作的索引
+        const nextIndex = currentExerciseIndex + 1
+        const nextExercise = workoutQueue[nextIndex]
+        const nextExerciseName = nextExercise ? nextExercise.name : '无'
+
+        // 更新页面显示
+        document.getElementById('nextExerciseDisplay').innerText =
+          '下一个动作: ' + nextExerciseName
+      }
+
+      // 模拟用户交互（通过创建一个隐藏按钮并触发点击事件）
+      function simulateUserInteraction(callback) {
+        const clickEvent = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+        })
+
+        const hiddenButton = document.createElement('button')
+        hiddenButton.style.display = 'none'
+        hiddenButton.onclick = () => {
+          if (callback) {
+            callback()
+          }
+          // 播放完成后移除该按钮
+          setTimeout(() => {
+            document.body.removeChild(hiddenButton)
+          }, 0)
+        }
+
+        document.body.appendChild(hiddenButton)
+        hiddenButton.dispatchEvent(clickEvent)
+      }
+
+      // 语音播报函数，使用浏览器内置的 SpeechSynthesisUtterance API
+      function speak(text) {
+        if (!('speechSynthesis' in window)) {
+          alert('当前浏览器不支持语音合成')
+          return
+        }
+
+        const utterance = new SpeechSynthesisUtterance(text)
+        utterance.lang = 'zh-CN' // 设置语言为中文
+
+        // 开始语音播报
+        window.speechSynthesis.speak(utterance)
+      }
+
+      // 在计时器页显示训练计划详情（列表形式）
+      function updatePlanDetails() {
+        const detailsDiv = document.getElementById('planDetails')
+        if (workoutQueue.length === 0) {
+          detailsDiv.innerHTML = ''
+          return
+        }
+        let html =
+          '<h4>训练计划详情：</h4><ul style="list-style:none;padding:0;">'
+        workoutQueue.forEach((item, index) => {
+          html += `<li style="padding:8px 0;border-bottom:1px solid #eee;">
+          ${index + 1}. ${item.name} —— 动作时长：${item.duration}s，组数：${
+            item.sets
+          }，次数：${item.reps}，休息：${item.rest}s`
+          if (item.image && item.image.trim() !== '') {
+            html += `<br/><img src="${item.image.trim()}" alt="预览" style="max-height:50px;border-radius:5px;">`
+          }
+          if (item.note && item.note.trim() !== '') {
+            html += `<br/><small>备注：${item.note}</small>`
+          }
+          html += '</li>'
+        })
+        html += '</ul>'
+        detailsDiv.innerHTML = html
+      }
+
+      /**************** 训练计划与历史记录相关 ****************/
+      // 当前训练计划直接保存为动作数组（无需解析文本）
+      function parseWorkoutPlan(savedPlan) {
+        return savedPlan.actions || []
+      }
+
+      // 保存训练计划（将当前PlanActions和备注保存到 localStorage）
+      function saveWorkoutPlan() {
+        if (currentPlanActions.length === 0) {
+          alert('请先添加至少一个动作！')
+          return
+        }
+        let planRemark = document.getElementById('planRemark').value
+        let planName = prompt('输入训练方案名称')
+        if (planName) {
+          workoutData.plans[planName] = {
+            actions: currentPlanActions,
+            remark: planRemark,
+          }
+          localStorage.setItem('workoutData', JSON.stringify(workoutData))
+          // 重置当前计划录入区
+          currentPlanActions = []
+          document.getElementById('actionList').innerHTML = ''
+          document.getElementById('planRemark').value = ''
+          updatePlansUI()
+          autoSelectPlan()
+        }
+      }
+
+      // 根据计划名称加载训练计划，保存当前计划名称，并更新计时器页面计划详情
+      function loadWorkoutPlanByName(planName) {
+        if (planName && workoutData.plans[planName]) {
+          currentPlanName = planName
+          workoutQueue = parseWorkoutPlan(workoutData.plans[planName])
+          document.getElementById('totalExercises').innerText =
+            workoutQueue.length
+          currentExerciseIndex = 0
+          showSection('home')
+          updatePlanDetails()
+        }
+      }
+
+      // 保存一条历史记录
+      function saveHistoryRecord(finished, duration) {
+        let record = {
+          date: new Date().toLocaleString(),
+          planName: currentPlanName || '未知',
+          duration: duration,
+          finished: finished,
+        }
+        workoutData.history.push(record)
+        localStorage.setItem('workoutData', JSON.stringify(workoutData))
+        updateHistoryUI()
+      }
+
+      // 更新历史记录列表及今日统计
+      function updateHistoryUI() {
+        const historyList = document.getElementById('historyList')
+        if (workoutData.history.length === 0) {
+          historyList.innerHTML = '<li>暂无记录</li>'
+        } else {
+          historyList.innerHTML = workoutData.history
+            .map(
+              (rec) =>
+                `<li>${rec.date} - ${rec.planName} - ${formatTime(
+                  rec.duration
+                )} - ${rec.finished ? '完成' : '未完成'}</li>`
+            )
+            .join('')
+        }
+        updateHistorySummary()
+      }
+
+      // 统计今日历史记录
+      function updateHistorySummary() {
+        let today = new Date().toLocaleDateString()
+        let finishedCount = 0,
+          unfinishedCount = 0,
+          totalTime = 0
+        workoutData.history.forEach((rec) => {
+          if (rec.date && rec.date.includes(today)) {
+            totalTime += rec.duration // 累加时长（单位：秒）
+            if (rec.finished) finishedCount++
+            else unfinishedCount++
+          }
+        })
+        document.getElementById('historySummary').innerHTML = `
+          <p>今日完成训练次数：${finishedCount}</p>
+          <p>今日未完成训练次数：${unfinishedCount}</p>
+          <p>今日累计训练时长：${formatTime(totalTime)}</p>
+        `
+      }
+
+      // 格式化时间（秒转为 分:秒）
+      function formatTime(seconds) {
+        let m = Math.floor(seconds / 60)
+        let s = seconds % 60
+        return m + '分 ' + s + '秒'
+      }
+
+      // 更新训练计划列表显示（显示详细信息和缩略图）
+      function updatePlansUI() {
+        const planList = document.getElementById('planList')
+        let listHtml = ''
+        for (let name in workoutData.plans) {
+          let remark = workoutData.plans[name].remark || ''
+          let actions = workoutData.plans[name].actions || []
+          let totalActions = actions.length
+          let totalTime = actions.reduce(
+            (sum, act) => sum + act.duration*act.sets + act.rest*act.sets,
+            0
+          )
+          listHtml += `<li onclick="loadWorkoutPlanByName('${name}')">
+            <strong>${name}</strong>${remark ? ' (' + remark + ')' : ''}
+            <br/>动作数：${totalActions}，计划总时长：${totalTime}s`
+          if (
+            actions.length > 0 &&
+            actions[0].image &&
+            actions[0].image.trim() !== ''
+          ) {
+            listHtml += `<br/><img src="${actions[0].image.trim()}" alt="预览" style="max-height:30px;border-radius:5px;">`
+          }
+          listHtml += '</li>'
+        }
+        planList.innerHTML = listHtml
+      }
+
+      // 自动选择当前时间段适合的训练方案并加载
+      function autoSelectPlan() {
+        let hour = new Date().getHours()
+        let timePeriod = hour < 12 ? '早晨' : hour < 18 ? '下午' : '晚上'
+        let matchingPlans = Object.keys(workoutData.plans).filter((name) =>
+          workoutData.plans[name].remark.includes(timePeriod)
+        )
+        if (matchingPlans.length > 0) {
+          function isCompletedToday(planName) {
+            return workoutData.history.some(
+              (rec) =>
+                rec.planName === planName &&
+                rec.date.includes(new Date().toLocaleDateString()) &&
+                rec.finished
+            )
+          }
+          let planToSelect =
+            matchingPlans.find((name) => !isCompletedToday(name)) ||
+            matchingPlans[0]
+          loadWorkoutPlanByName(planToSelect)
+        }
+      }
+
+      /**************** 历史记录导出 ****************/
+      function exportHistory() {
+        if (workoutData.history.length === 0) {
+          alert('暂无历史记录可导出')
+          return
+        }
+        let csvContent = 'data:text/csv;charset=utf-8,'
+        csvContent += '日期,训练方案,时长(秒),状态\r\n'
+        workoutData.history.forEach((rec) => {
+          let row = `${rec.date},${rec.planName},${rec.duration},${
+            rec.finished ? '完成' : '未完成'
+          }`
+          csvContent += row + '\r\n'
+        })
+        let encodedUri = encodeURI(csvContent)
+        let link = document.createElement('a')
+        link.setAttribute('href', encodedUri)
+        link.setAttribute('download', 'history.csv')
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      }
+
+      /**************** 训练计划导入导出 ****************/
+      function exportWorkoutPlan() {
+        if (Object.keys(workoutData.plans).length === 0) {
+          alert('暂无训练计划可导出')
+          return
+        }
+        let jsonContent = JSON.stringify(workoutData.plans, null, 2)
+        let blob = new Blob([jsonContent], { type: 'application/json' })
+        let link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = 'workoutPlans.json'
+        link.click()
+        URL.revokeObjectURL(link.href)
+      }
+
+      function importWorkoutPlan() {
+        const input = document.createElement('input')
+        input.type = 'file'
+        input.accept = '.json'
+        input.onchange = (e) => {
+          const file = e.target.files[0]
+          if (file) {
+            const reader = new FileReader()
+            reader.onload = (e) => {
+              try {
+                const data = JSON.parse(e.target.result)
+                workoutData.plans = data
+                localStorage.setItem('workoutData', JSON.stringify(workoutData))
+                alert('训练计划导入成功！')
+                updatePlansUI()
+              } catch (error) {
+                alert('导入失败，请确保文件是有效的JSON格式')
+              }
+            }
+            reader.readAsText(file)
+          }
+        }
+        input.click()
+      }
+
+      /**************** 清除历史记录 ****************/
+      function clearHistory() {
+        if (confirm('确定要清除所有历史记录吗？')) {
+          workoutData.history = []
+          localStorage.setItem('workoutData', JSON.stringify(workoutData))
+          updateHistoryUI()
+        }
+      }
+
+      /**************** 录入训练计划动作相关 ****************/
+      // 添加单个动作（支持文件上传，转换为Base64）
+      function addAction() {
+        const name = document.getElementById('actionName').value.trim()
+        const duration = parseInt(
+          document.getElementById('actionDuration').value
+        )
+        const sets = parseInt(document.getElementById('actionSets').value)
+        const reps = parseInt(document.getElementById('actionReps').value)
+        const rest = parseInt(document.getElementById('actionRest').value)
+        const note = document.getElementById('actionNote').value.trim()
+        const fileInput = document.getElementById('actionImageFile')
+        const mode = document.getElementById('actionMode').value
+        if (!name || isNaN(duration) || isNaN(sets) || isNaN(reps) || isNaN(rest)) {
+          alert('请填写完整的动作信息！')
+          return
+        }
+        // 定义动作对象
+        let action = { name, duration, sets, reps, rest, note, image: '', mode }
+        // 如果选择了图片，则转换为Base64；否则直接添加
+        if (fileInput.files && fileInput.files[0]) {
+          const reader = new FileReader()
+          reader.onload = function (e) {
+            action.image = e.target.result // Base64字符串
+            currentPlanActions.push(action)
+            updateActionList()
+            // 清空表单
+            document.getElementById('actionName').value = ''
+            document.getElementById('actionDuration').value = ''
+            document.getElementById('actionSets').value = ''
+            document.getElementById('actionReps').value = ''
+            document.getElementById('actionRest').value = ''
+            document.getElementById('actionNote').value = ''
+            fileInput.value = ''
+          }
+          reader.readAsDataURL(fileInput.files[0])
+        } else {
+          currentPlanActions.push(action)
+          updateActionList()
+          document.getElementById('actionName').value = ''
+          document.getElementById('actionDuration').value = ''
+          document.getElementById('actionSets').value = ''
+          document.getElementById('actionReps').value = ''
+          document.getElementById('actionRest').value = ''
+          document.getElementById('actionNote').value = ''
+        }
+      }
+
+      // 更新录入动作列表预览
+      function updateActionList() {
+        const actionList = document.getElementById('actionList')
+        let html = ''
+        currentPlanActions.forEach((act, index) => {
+          html += `
+            <li id="action-${index}">
+              <div class="action-info">
+                <span class="name">${act.name}</span>
+                <span class="details">
+                  时长: ${act.duration}s，组数: ${act.sets}，次数: ${act.reps}，休息: ${act.rest}s
+                </span>
+                ${act.note ? `<small>备注: ${act.note}</small>` : ''}
+              </div>
+              <div class="action-controls">
+                <i class="edit-action" onclick="editAction(${index})">✎</i>
+                <i class="delete-action" onclick="deleteAction(${index})">×</i>
+              </div>
+            </li>
+          `
+        })
+        actionList.innerHTML = html
+      }
+
+      // 编辑动作
+      function editAction(index) {
+        let action = currentPlanActions[index]
+        let newName = prompt('修改动作名称', action.name)
+        let newDuration = prompt('修改动作时长（秒）', action.duration)
+        let newSets = prompt('修改组数', action.sets)
+        let newReps = prompt('修改次数', action.reps)
+        let newRest = prompt('修改休息时间（秒）', action.rest)
+        let newNote = prompt('修改备注信息', action.note)
+        let newMode = prompt('修改动作模式', action.mode)
+
+        if (newName) action.name = newName.trim()
+        if (newDuration) action.duration = parseInt(newDuration)
+        if (newSets) action.sets = parseInt(newSets)
+        if (newReps) action.reps = parseInt(newReps)
+        if (newRest) action.rest = parseInt(newRest)
+        if (newNote) action.note = newNote.trim()
+        if (newMode) action.mode = newMode.trim()
+
+        updateActionList()
+      }
+
+      // 删除动作
+      function deleteAction(index) {
+        if (confirm('确定要删除这个动作吗？')) {
+          currentPlanActions.splice(index, 1)
+          updateActionList()
+        }
+      }
+
+      // 手动模式功能
+      function startManualAction() {
+        if (!isRunning) {
+          isRunning = true;
+          document.getElementById('currentExercise').innerText = exercise.name;
+          document.getElementById('timer').innerText = "--s"; // 清空计时器显示
+          currentActionStartTime = Date.now();
+          document.getElementById('startManualActionBtn').style.display = 'none'; // 隐藏开始动作按钮
+          document.getElementById('completeActionBtn').style.display = 'block'; // 显示完成动作按钮
+        }
+      }
+
+      function completeCurrentAction() {
+        currentActionEndTime = Date.now();
+        const duration = (currentActionEndTime - currentActionStartTime) / 1000;
+        
+        // 记录本次用时
+        const exerciseId = workoutQueue[currentExerciseIndex].name;
+        if (!actionTimes[exerciseId]) {
+          actionTimes[exerciseId] = []; // 初始化用时数组
+        }
+        actionTimes[exerciseId].push(duration);
+
+        // 更新平均用时
+        const avgDuration = actionTimes[exerciseId].reduce((a, b) => a + b, 0) / actionTimes[exerciseId].length;
+        console.log(`动作: ${exerciseId}，平均用时: ${Math.round(avgDuration)}s`);
+
+        // 跳转到下一个动作或休息
+        skipCurrentAction(); // 手动完成一次后跳转
+        currentActionStartTime = Date.now();
+        document.getElementById('startManualActionBtn').style.display = 'block'; // 显示开始动作按钮
+        document.getElementById('completeActionBtn').style.display = 'none'; // 隐藏完成动作按钮
+      }
+
+      /**************** 页面初始化 ****************/
+      updateHistoryUI()
+      updatePlansUI()
+      autoSelectPlan()
+    </script>
+  </body>
+</html>

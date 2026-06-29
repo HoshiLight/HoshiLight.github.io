@@ -1,0 +1,705 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+    font-family: "PingFang SC", "HarmonyOS_Sans_SC_Medium", Helvetica, Arial, Menlo, Monaco, "Microsoft YaHei", sans-serif;
+
+}
+
+.blur-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    /* filter: blur(2px); */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.blur-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* background-color: black; */
+    /* -webkit-mask-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%); */
+    /* mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.1) 100%); */
+}
+
+.gradient-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    --start-gradient-color: rgba(0, 0, 0, 0) 25%;
+    --end-gradient-color: rgba(0, 0, 0, 0) 75%;
+}
+
+.gradient-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom, var(--start-gradient-color), var(--end-gradient-color));
+}
+
+.spectrum-cover-container {
+    position: relative;
+    /* width: 50%; */
+    display: flex;
+    justify-content: center;
+}
+
+.spectrum-canvas {
+    width: 100vh;
+    height: 70vh;
+}
+
+
+.top-spectrum-canvas {
+    width: 40vw;
+    height: 10vw;
+}
+
+@keyframes rotate-A {
+    0% {
+        transform: rotate(0deg) translate(1px) rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg) translate(1px) rotate(-360deg);
+    }
+}
+
+
+/* 变长变矮动画关键帧 */
+@keyframes stretch-A {
+
+    0%,
+    100% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        transform: scaleY(1.3);
+    }
+}
+
+/* 向左向右倾斜动画关键帧 */
+@keyframes skew-B {
+
+    0%,
+    100% {
+        transform: skewX(0deg);
+    }
+
+    25% {
+        transform: skewX(-20deg);
+        /* 向左倾斜 */
+    }
+
+    75% {
+        transform: skewX(20deg);
+        /* 向右倾斜 */
+    }
+}
+
+/* 向左向右倾斜动画关键帧 */
+@keyframes skew-A {
+
+    0% {
+        transform: skewX(-20deg);
+        /* 向左倾斜 */
+    }
+
+    100% {
+        transform: skewX(20deg);
+        /* 向右倾斜 */
+    }
+}
+
+.char-animation-target {
+    display: inline-block;
+    /* 初始动画设置，可以被JavaScript覆盖 */
+    animation: rotate-A 5s infinite linear;
+}
+
+.stretch-animation {
+    animation: stretch-A 2s infinite alternate ease-in-out;
+    /* 变长变矮动画 */
+}
+
+.skew-animation {
+    animation: skew-A 5s infinite alternate ease-in-out;
+    /* 向左向右倾斜动画 */
+}
+
+.bottom-spectrum-canvas {
+    width: 40vw;
+    height: 5vw;
+}
+
+.cover-container {
+    position: absolute;
+    width: 35vh;
+    height: 35vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-pause-btn {
+    background-image: url('../images/play_icon.svg');
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    filter: brightness(100) saturate(100%);
+}
+
+.lyrics-show-btn {
+    margin-bottom: 2px;
+    background-image: url('../images/lyrics.svg');
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    filter: brightness(100) saturate(100%);
+    position: relative;
+}
+
+.lyrics-show-btn::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    right: 6px;
+    bottom: 6px;
+    background: linear-gradient(to bottom left, transparent 49%, white 45%, white 55%, transparent 51%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.lyrics-show-btn.with-line::before {
+    opacity: 1;
+}
+
+.like-this-btn {
+    margin-bottom: 2px;
+    background-image: url('../images/unlike.svg');
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    filter: brightness(100) saturate(100%);
+}
+
+.like-this-btn-active {
+    background-image: url('../images/like.svg');
+}
+
+
+.time-progress-container {
+    flex-grow: 1;
+    width: 0;
+    margin: 0 20px;
+}
+
+.time-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.time-elapsed,
+.total-duration {
+    flex-basis: 50%;
+    text-align: center;
+    color: #ffffff;
+}
+
+.time-elapsed {
+    text-align: left;
+}
+
+.total-duration {
+    text-align: right;
+}
+
+
+.volume-container {
+    position: relative;
+}
+
+.volume-btn {
+    background-image: url('../images/volume_icon.svg');
+    background-size: cover;
+    background-color: transparent;
+    width: 32px;
+    height: 32px;
+    border: none;
+    cursor: pointer;
+    filter: brightness(100) saturate(100%);
+}
+
+/* Canvas和封面的容器 */
+.spectrum-cover-container {
+    position: relative;
+}
+
+/* 封面图片样式 */
+.cover-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+/* 歌曲信息样式 */
+.song-info {
+    margin-top: 40px;
+    text-align: center;
+    align-items: center;
+}
+
+
+.song-title {
+    display: block;
+    color: #ffffff;
+    font-size: 4.2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.artist-name {
+    display: block;
+    color: #ffffff;
+    font-size: 4em;
+    text-align: center;
+}
+
+/* 播放控制容器 */
+.controls-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    margin: 3px;
+    width: 97%;
+    box-sizing: border-box;
+}
+
+
+.player-container {
+    display: flex;
+    height: 80vh;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+
+.left-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 50%;
+    height: 80vh;
+    z-index: 1;
+    flex-basis: auto;
+    width: 50%;
+}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-basis: 50%;
+    height: 80vh;
+    z-index: 2;
+    text-align: center;
+    align-items: center;
+
+    width: 50%;
+    margin-right: 20px;
+}
+
+.lyrics-container::-webkit-scrollbar {
+    display: none;
+    /* 隐藏滚动条 */
+}
+
+.lyrics-container-container {
+    display: flex;
+    justify-content: center;
+    /* 水平居中 */
+    align-items: center;
+    /* 垂直居中 */
+    transition: opacity 0.2s ease-in-out;
+}
+
+.lyrics-container-container_hide {
+    opacity: 0;
+}
+
+.lyrics-container-container_left {
+    align-items: start;
+    justify-content: left;
+}
+
+.lyrics-container {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin-left: 5vw;
+    margin-top: 0vw;
+    margin-right: 5vw;
+    z-index: 999;
+    max-height: 15vh;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE和Edge */
+    overflow: scroll;
+    vertical-align: middle;
+}
+
+.lyrics {
+    display: inline-block;
+    font-size: 1.3em;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    white-space: pre-wrap;
+    text-align: center;
+    margin: 20px;
+    padding: 10px 0;
+}
+
+.lyrics-active {
+    opacity: 1;
+}
+
+
+/* 自定义滑块样式 */
+.song-progress {
+    -webkit-appearance: none;
+    /* 移除默认外观 */
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    /* 进度条宽度 */
+    height: 10px;
+    /* 进度条高度 */
+    border-radius: 320px;
+    /* 圆角效果 */
+    background: rgba(255, 255, 255, 0.2);
+    /* 进度条剩余部分的颜色 */
+    outline: none;
+    /* 移除轮廓 */
+
+    /* 过渡动画 */
+    position: relative;
+
+    cursor: pointer;
+    overflow: hidden;
+
+    transition: all 0.3s ease;
+}
+
+/* 自定义进度条（滑块）的样式 */
+.song-progress::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    /* 移除默认外观 */
+    appearance: none !important;
+    margin-left: -2px;
+    width: 20px;
+    /* 滑块宽度 */
+    height: 10px;
+    /* 滑块高度 */
+    border-radius: 0%;
+    /* 圆形滑块 */
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 1) 0% 50%,
+            transparent 50% 100%);
+    box-shadow: -10000px 0 0 10000px rgba(255, 255, 255, 1);
+    /* 已滚动完的轨道颜色，通过阴影实现 */
+    transition: opacity 0.3s;
+    opacity: 0.6;
+    /* linear-gradient 不支持动画，使用opacity代替 */
+}
+
+/* 自定义进度条（滑块）的样式 for Firefox */
+.song-progress::-moz-range-thumb {
+    -webkit-appearance: none !important;
+    /* 移除默认外观 */
+    appearance: none !important;
+    margin-left: -2px;
+    width: 20px;
+    /* 滑块宽度 */
+    height: 10px;
+    /* 滑块高度 */
+    border-radius: 0%;
+    /* 圆形滑块 */
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 1) 0% 50%,
+            transparent 50% 100%);
+    box-shadow: -10000px 0 0 10000px rgba(255, 255, 255, 1);
+    /* 已滚动完的轨道颜色，通过阴影实现 */
+    transition: opacity 0.3s;
+    opacity: 0.6;
+    /* linear-gradient 不支持动画，使用opacity代替 */
+}
+
+/* 自定义进度条整个基础部分的样式 */
+.song-progress::-webkit-slider-runnable-track {
+    width: 100%;
+    /* 进度条宽度 */
+    height: 10px;
+
+    /* 进度条高度 */
+    border-radius: 32px;
+    /* 圆角效果 */
+    background: rgba(255, 255, 255, 0.2);
+    /* 进度条剩余部分的颜色 */
+    outline: none;
+    /* 移除轮廓 */
+
+    position: relative;
+    overflow: hidden;
+
+    border-radius: 320px;
+
+    transition: all 0.3s ease-out;
+}
+
+/* 自定义进度条已完成部分的样式 for Firefox */
+.song-progress::-moz-range-track {
+    width: 100%;
+    /* 进度条宽度 */
+    height: 10px;
+
+    /* 进度条高度 */
+    border-radius: 320px;
+    /* 圆角效果 */
+    background: rgba(255, 255, 255, 0.2);
+    /* 进度条剩余部分的颜色 */
+    outline: none;
+    /* 移除轮廓 */
+
+    position: relative;
+    overflow: hidden;
+
+    border-radius: 32px;
+
+    transition: all 0.3s ease-out;
+}
+
+
+/* 鼠标点击样式 */
+.song-progress:hover {
+    transform: scale(1.01, 1.6);
+    transition: all 0.5s ease-in;
+
+}
+
+.song-progress::-webkit-slider-runnable-track:hover {
+    transform: scale(1.002, 1.001);
+    transition: all 0.5s ease-in;
+
+}
+
+.song-progress::-webkit-slider-thumb:hover {
+    /* 圆形滑块 */
+    opacity: 1;
+}
+
+.volume-control-container {
+    height: 100px;
+    width: 10px;
+    position: absolute;
+    left: calc(50% - 5px);
+    top: calc(-70px - 50px);
+    transition: all 0.3s ease;
+    transform: translateX(100%);
+    opacity: 0;
+    /* 元素高度的一半50px + 边距20px */
+
+}
+
+.volume-control-container__opened {
+    transform: translateX(0%);
+    opacity: 1;
+}
+
+/* 自定义滑块样式 */
+.volume-control {
+    --scale: 1, 1;
+    --translate-x: 0px;
+    -webkit-appearance: none;
+    /* 移除默认外观 */
+    -moz-appearance: none;
+    appearance: none;
+
+    /* 进度条高度 */
+    border-radius: 8px;
+    /* 圆角效果 */
+    background: rgba(255, 255, 255, 0.2);
+    /* 进度条剩余部分的颜色 */
+    outline: none;
+    /* 移除轮廓 */
+    /* 过渡动画 */
+    cursor: pointer;
+    overflow: hidden;
+
+    position: relative;
+
+    margin: 0;
+    /* 去除margin与padding */
+    padding: 0;
+
+    left: 50%;
+    top: 50%;
+
+    height: 10px;
+    width: 100px;
+    transform: translate(-50%, -50%) rotateZ(-90deg) scale(var(--scale));
+    /* 通过旋转将其变为纵向滑块 */
+    /* 向左上移动50%，使元素居中 */
+    transition: all 0.3s ease;
+
+    display: block;
+    /* 设置为block，避免字体大小对位置的干扰 */
+}
+
+/* 自定义进度条（滑块）的样式 */
+.volume-control::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    /* 移除默认外观 */
+    appearance: none !important;
+    margin-left: -2px;
+    width: 20px;
+    /* 滑块宽度 */
+    height: 10px;
+    /* 滑块高度 */
+    border-radius: 0%;
+    /* 圆形滑块 */
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 1) 0% 50%,
+            transparent 50% 100%);
+    box-shadow: -10000px 0 0 10000px rgba(255, 255, 255, 1);
+    /* 已滚动完的轨道颜色，通过阴影实现 */
+    transition: all 0.3s;
+    opacity: 0.6;
+}
+
+.volume-control::-moz-range-thumb {
+    -webkit-appearance: none !important;
+    /* 移除默认外观 */
+    appearance: none !important;
+    margin-left: -2px;
+    width: 20px;
+    /* 滑块宽度 */
+    height: 10px;
+    /* 滑块高度 */
+    border-radius: 0%;
+    /* 圆形滑块 */
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 1) 0% 50%,
+            transparent 50% 100%);
+    box-shadow: -10000px 0 0 10000px rgba(255, 255, 255, 1);
+    /* 已滚动完的轨道颜色，通过阴影实现 */
+    transition: all 0.3s;
+    opacity: 0.6;
+}
+
+/* 自定义进度条整个基础部分的样式 */
+.volume-control::-webkit-slider-runnable-track {
+    width: 100%;
+    /* 进度条宽度 */
+    height: 10px;
+
+    /* 进度条高度 */
+    background: rgba(255, 255, 255, 0.2);
+    /* 进度条剩余部分的颜色 */
+    outline: none;
+    /* 移除轮廓 */
+
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+
+    transition: all 0.3s ease-out;
+}
+
+/* 自定义进度条已完成部分的样式 for Firefox */
+.volume-control::-moz-range-track {
+    width: 100%;
+    /* 进度条宽度 */
+    height: 10px;
+
+    /* 进度条高度 */
+    background: rgba(255, 255, 255, 0.2);
+    /* 进度条剩余部分的颜色 */
+    outline: none;
+    /* 移除轮廓 */
+
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+
+    transition: all 0.3s ease-out;
+}
+
+/* 鼠标点击样式 */
+.volume-control:hover {
+    --scale: 1.01, 1.6;
+    transition: all 0.5s ease-in;
+
+}
+
+.volume-control::-webkit-slider-runnable-track:hover {
+    /* transform: scale(1.002, 1.001); */
+    transition: all 0.5s ease-in;
+
+}
+
+.volume-control::-webkit-slider-thumb:hover {
+    /* 圆形滑块 */
+    opacity: 1;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你也可以看看另一个选项~</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./css/style.css">
+
+</head>
+
+<body>
+    <div id="blur-background" class="blur-background"></div>
+
+    <div class="player-container">
+        <!-- 左侧容器 -->
+        <div class="left-container">
+            <!-- Canvas和封面 -->
+            <div class="spectrum-cover-container">
+                <canvas id="spectrum-canvas" class="spectrum-canvas" width="1000" height="700"></canvas>
+                <div id="cover-container" class="cover-container">
+                    <img id="cover-image" class="cover-image" alt="" />
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧容器 -->
+        <div class="right-container">
+            <!-- 歌曲信息 -->
+            <div class="song-info">
+                <span id="song-title" class="song-title">Song: Unknown</span>
+                <span id="artist-name" class="artist-name">Artist: Unknown</span>
+            </div>
+
+            <!-- 进度条顶部频谱 -->
+            <canvas id="top-spectrum-canvas" class="top-spectrum-canvas" width="1024" height="256"></canvas>
+            <!-- 播放控件 -->
+            <div class="controls-container">
+                <button id="playPause" class="play-pause-btn"></button>
+                <div class="time-progress-container">
+                    <div id="time-container" class="time-container">
+                        <span id="time-elapsed" class="time-elapsed">00:00</span>
+                        <span id="total-duration" class="total-duration">00:00</span>
+                    </div>
+                    <input type="range" id="song-progress" class="song-progress" min="0" max="100" value="0">
+                </div>
+                <div class="volume-container">
+                    <button id="volume-btn" class="volume-btn"></button>
+                    <div id="volume-control-container" class="volume-control-container">
+                        <input type="range" id="volume-control" class="volume-control" min="0" max="100" value="100">
+                    </div>
+                </div>
+                <button id="lyrics-show" class="lyrics-show-btn"></button>
+                <button id="like-this" class="like-this-btn"></button>
+            </div>
+            <!-- 进度条底部频谱 -->
+            <canvas id="bottom-spectrum-canvas" class="bottom-spectrum-canvas" width="800" height="100"></canvas>
+
+
+        </div>
+
+
+    </div>
+    <!-- 歌词 -->
+    <div id="lyrics-container-container" class="lyrics-container-container">
+        <div id="lyrics-container" class="lyrics-container">
+            <p id="lyrics" class="lyrics lyrics-active">播放器正在努力连线歌词中</p>
+        </div>
+    </div>
+    <script async src="./scripts/attach.js"></script>
+    <script defer type="module" src="./scripts/main.js"></script>
+</body>
+
+
+</html>

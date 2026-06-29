@@ -1,0 +1,161 @@
+.sentencecontent {
+    /* opacity: 0;加了这一个会导致显示不出来。 */
+    transition: opacity 0.5s ease-in-out;
+    font-size: min(3.2vw, 24px);
+    color: var(--main-color-red);
+
+
+}/* 修改触摸时的样式 */
+.sentencecontent.touched {
+    color: #ffffff;
+}
+.sentencecontent.show-line-through {
+    text-decoration: line-through; /* 文本显示完成后添加删除线效果 */
+} 
+.sw-Btn a {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    background: #fff;
+    margin: 0 auto;
+}
+
+@media print, screen and (min-width: 1025px) {
+    .sw-Btn a {
+    width: 240px;
+    height: 54px;
+    border: 2px solid rgb(236, 89, 92);
+    border-radius: 30px;
+    -webkit-transform: translateX(5px);
+    transform: translateX(5px);
+    }
+}
+
+@media print, screen and (max-width: 1024px) {
+    .sw-Btn a {
+    width: 57.2916666667vw;
+    height: 13.0208333333vw;
+    border: 0.5208333333vw solid rgb(236, 89, 92);;
+    border-radius: 7.8125vw;
+    -webkit-transform: translateX(1.3020833333vw);
+    transform: translateX(1.3020833333vw);
+    }
+}
+
+.sw-Btn a::after {
+    content: "";
+    display: block;
+    position: absolute;
+    background: url(../img/common/arrow-heart.png) top center/contain no-repeat;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+@media print, screen and (min-width: 1025px) {
+    .sw-Btn a::after {
+    width: 48px;
+    height: 32px;
+    right: -10px;
+    top: 50%;
+    }
+}
+
+@media print, screen and (max-width: 1024px) {
+    .sw-Btn a::after {
+    width: 11.71875vw;
+    height: 7.8125vw;
+    top: 6.25vw;
+    right: -2.6041666667vw;
+    }
+}
+
+.sw-Btn a span {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    position: absolute;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 1;
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    color: rgb(236, 89, 92);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    z-index: 2;
+}
+
+@media print, screen and (min-width: 1025px) {
+    .sw-Btn a span {
+    width: 240px;
+    height: 54px;
+    top: -2px;
+    left: -1px;
+    border-radius: 30px;
+    font-size: 2rem;
+    }
+}
+
+@media print, screen and (max-width: 1024px) {
+    .sw-Btn a span {
+    width: 57.2916666667vw;
+    height: 13.0208333333vw;
+    border-radius: 7.8125vw;
+    top: -0.2604166667vw;
+    left: -0.1302083333vw;
+    font-size: 3.6458333333vw;
+    }
+}
+
+.sw-Btn a span::before {
+    content: "";
+    display: block;
+    position: absolute;
+    background: #fff;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+@media print, screen and (min-width: 1025px) {
+    .sw-Btn a span::before {
+    width: 20px;
+    height: 36px;
+    right: -2px;
+    }
+}
+
+@media print, screen and (max-width: 1024px) {
+    .sw-Btn a span::before {
+    width: 5.2083333333vw;
+    height: 9.1145833333vw;
+    right: -0.2604166667vw;
+    }
+}
+
+@media (any-hover:hover) {
+    .sw-Btn a::after {
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+    transition: transform 0.3s, -webkit-transform 0.3s;
+    }
+
+    .sw-Btn a:hover::after {
+    -webkit-transform: translate(10px, -50%);
+    transform: translate(10px, -50%);
+    }
+}

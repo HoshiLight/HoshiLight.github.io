@@ -1,0 +1,71 @@
+.bg-fixed {  
+    position: absolute;
+    /* position: fixed; */
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-animation: bgloop 6s linear infinite;
+    animation: bgloop 6s linear infinite;
+    z-index: 0;
+    /* z-index: 1; */
+    opacity: .19;
+}
+/* bgloop这个动画需要定义。 */
+
+@media print, screen and (min-width: 1025px) {
+    .bg-fixed {
+        /* background: #fff url(..\img\common\deco_bg-ptn.png) top left/26.6927083333vw auto repeat; */
+/* 上面这种写法会导致文件加载不进来，404错误。 */
+/* 文件路径找不到了就会报错。404  */
+        background: url(../img/common/deco_bg-ptn.png) top left/102px auto repeat;
+    }
+}
+
+@media print, screen and (max-width: 1024px) {
+    .bg-fixed {
+        background: #fff url(../img/common/deco_bg-ptn.png) top left/26.6927083333vw auto repeat;
+    }
+}
+
+@media print,
+screen and (min-width:1025px) {
+    @-webkit-keyframes bgloop {
+        from {
+            background-position: top left
+        }
+
+        to {
+            background-position: 102px -99px
+        }
+    }
+
+    @keyframes bgloop {
+        from {
+            background-position: top left
+        }
+
+        to {
+            background-position: 102px -99px
+        }
+    }
+}
+
+    @-webkit-keyframes bgloop {
+        from {
+            background-position: top left
+        }
+
+        to {
+            background-position: 13.28125vw -12.890625vw
+        }
+    }
+
+    @keyframes bgloop {
+        from {
+            background-position: top left
+        }
+
+        to {
+            background-position: 13.28125vw -12.890625vw
+        }
+    }

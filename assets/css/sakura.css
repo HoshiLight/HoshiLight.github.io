@@ -1,0 +1,80 @@
+.sakura-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+}
+.sakura-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../img/common/test.jpeg');
+  background-size: cover;
+  transition: filter 3s ease, opacity 3s ease;
+  background-position: center center;
+  /* 上面这一行代码解决小屏幕状态下不居中的问题。 */
+
+}
+.sakura-blur {
+  filter: blur(20px);
+}
+/* .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: black;
+  opacity: 0;
+  transition: opacity 1s ease;
+} */
+.sakura-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 设置高度为视口高度，使其垂直居中 */
+}
+.sakura-text-image {
+  /* 使用图片替代文字 */
+  width: 99%; /* 调整图片宽度 */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* @keyframes fadeInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+*/
+/* 上面的这个是轨迹效果，下面的才是淡入效果。 */
+@keyframes fadeInFromLeft {
+    from {
+        opacity: 0;
+        background-position: 100% 0;
+    }
+    to {
+        opacity: 1;
+        background-position: 0 0;
+    }
+}
+#sakura-petal-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.petal {
+    position: absolute;
+    max-width: 50px; /* 假设花瓣不超过100px宽 */
+    will-change: transform, opacity; /* 性能优化 */
+}
